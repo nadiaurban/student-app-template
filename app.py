@@ -4,6 +4,12 @@ import tensorflow as tf
 import keras
 from PIL import Image
 
+st.set_page_config(
+    page_title="My AI model",  # This shows up in the browser tab
+    page_icon="🧠",                   # Optional: Emoji or URL to an icon
+    layout="centered",                # Optional: 'centered' or 'wide'
+    initial_sidebar_state="auto"     # Optional: 'auto', 'expanded', 'collapsed'
+)
 # ---------------------------
 # Placeholder variables and model loading
 # ---------------------------
@@ -57,23 +63,23 @@ with st.sidebar:
     )
 
     # Example Images section – replace placeholder images and captions with actual files/paths.
-    st.write("### Example Image 1")
+    st.write("## Class 1: ")
     img1 = resize_image("example1.png", 300)  
     if img1:
-        st.image(img1, caption="<Insert caption for image 1>")
+        st.image(img1, caption="Training data: .... photos")
 
-    st.write("### Example Image 2")
+    st.write("## Class 2: ")
     img2 = resize_image("example2.png", 300)  
     if img2:
-        st.image(img2, caption="<Insert caption for image 2>")
+        st.image(img2, caption="Training data: .... photos")
         
-    st.write("### Example Image 3")
+    st.write("## Class 3:")
     img3 = resize_image("example3.png", 300)  
     if img3:
-        st.image(img3, caption="<Insert caption for image 3>")
+        st.image(img3, caption="Training data: .... photos")
 
     # Model Authors Section
-    st.write("### Model Authors")
+    st.write("## Model Authors")
     st.write(
         """
         - **Name:** <Insert Author Name>  
@@ -129,11 +135,12 @@ st.markdown(
 # Function to Preprocess Image for Recognition
 # ---------------------------
 def preprocess_image(image):
-    # Resize the image to the input size expected by your model
-    image = image.resize((150, 150))  # <-- UPDATE: Adjust this size if your model expects different dimensions
-    image_array = np.array(image) / 255.0  # Normalize pixel values
-    image_array = np.expand_dims(image_array, axis=0)  # Add a batch dimension
-    return image_array.astype(np.float32)
+    image = image.resize((224, 224))  # or use ImageOps.fit if you prefer center crop
+    image = image.convert("RGB")
+    image_array = np.asarray(image).astype(np.float32)
+    normalized_image_array = (image_array / 127.5) - 1  # Match TM normalization
+    normalized_image_array = np.expand_dims(normalized_image_array, axis=0)
+    return normalized_image_array
 
 # ---------------------------
 # Main Area: Header and Image Recognition Toolbar
@@ -198,6 +205,9 @@ st.markdown(
     """
     <div style='text-align: left; padding-top: 40px;'>
         <p>©Created by Nadia Urban for Shanghai Thomas School.<br>CNN model trained with Teachable Machine</p>
+    </div>
+     <div style='text-align: left; padding-top: 40px;'>
+        <p>Disclamer: This app is made for education purposes ONLY.</p>
     </div>
     """,
     unsafe_allow_html=True

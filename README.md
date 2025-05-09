@@ -36,7 +36,6 @@ Make sure you have the following dependencies installed:
 
 - [Streamlit](https://streamlit.io/)
 - [TensorFlow](https://tensorflow.org/)
-- [Keras](https://keras.io/)
 - [NumPy](https://numpy.org/)
 - [Pillow](https://python-pillow.org/)
 
